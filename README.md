@@ -8,3 +8,5 @@ convert.py: Converts RA and DEC of a star into azimuth and elevation.
 fits.py: Converts .png into .fits for background noise removal. 
 
 plot2.py: Histograms and scatter plots to plot data from a .csv file. 
+
+PNGtoPDF.py: Organizes and labels all .png (and other photo types) from a folder into a single PDF.
