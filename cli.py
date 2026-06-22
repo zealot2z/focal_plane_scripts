@@ -5,6 +5,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib.patches import Ellipse
 
+from matplotlib.patches import Rectangle
 import pandas as pd
 import plotly.graph_objects as go
 
@@ -36,6 +37,14 @@ def build_parser():
         default=None,
         help='Optional interactive Plotly HTML output for inspecting x, y, z and overlays.'
     )
+
+    #Added 6/22/26 for calibration square 
+    p.add_argument('--calibration-output', default=None,
+               help='Squared calibration image')
+    p.add_argument('--calibration-vmax', type=float, default=40.0,
+               help='vmax for calibration image')
+    p.add_argument('--calibration-zoom-halfwidth', type=float, default=240.0, help='Half-width in pixels for --calibration')
+    
     return p
 
 
@@ -463,9 +472,9 @@ def main():
         figz, axz = plt.subplots(figsize=(7, 7))
         axz.imshow(img8, origin='upper', cmap='gray', vmin=0, vmax=255)
 
-        # Re-draw the key items only, so the zoom is not cluttered.
         axz.plot(cam_center[0], cam_center[1], marker='+', markersize=18,
                  markeredgewidth=2.5, color='blue') #default color = lime
+
         axz.text(cam_center[0] + 8, cam_center[1] - 8, 'center',
                  color='lime', fontsize=10)
 
@@ -537,6 +546,53 @@ def main():
         plt.tight_layout()
         figz.savefig(args.zoom_output, dpi=180)
         print(f'Saved zoom {args.zoom_output}')
+
+    #Calibration square added 6/22/26
+    if args.calibration_output:
+        zhw = float(args.calibration_zoom_halfwidth)
+        zoom_center = 0.5 * (offset_start_xy + offset_end_xy)
+        figz, axz = plt.subplots(figsize=(7, 7))
+        axz.imshow(img8, origin='upper', cmap='gray', vmin=0, vmax=args.calibration_vmax)
+
+        axz.plot(cam_center[0], cam_center[1], marker='+', markersize=18,
+                 markeredgewidth=2.5, color='blue') #default color = lime
+        
+        #actual code that draws square
+        square_side_length = 126.5
+        half_length = square_side_length/2
+        square = Rectangle(
+            (cam_center[0] - half_length - 5, cam_center[1] - half_length),
+            2 * half_length,
+            2 * half_length,
+            fill=False,
+            edgecolor='blue',
+            linewidth=1
+        )
+        axz.add_patch(square)
+
+        axz.text(cam_center[0] + 8, cam_center[1] - 8, 'center',
+                 color='lime', fontsize=10)
+
+        ellz = Ellipse(
+            (src['X_IMAGE'], src['Y_IMAGE']),
+            width=2 * float(src['A_IMAGE']),
+            height=2 * float(src['B_IMAGE']),
+            angle=float(src['THETA_IMAGE']),
+            fill=False,
+            edgecolor='red',
+            linewidth=2.0
+        )
+
+        axz.set_xlim(zoom_center[0] - zhw, zoom_center[0] + zhw)
+        axz.set_ylim(zoom_center[1] + zhw, zoom_center[1] - zhw)
+        axz.set_xlabel('x [pix]')
+        axz.set_ylabel('y [pix]')
+        axz.set_title('Zoomed pointing offset')
+        plt.tight_layout()
+        figz.savefig(args.calibration_output, dpi=180)
+        print(f'Saved zoom {args.calibration_output}')    
+
+
     if use_skycam:
         print(f'Nearest tracking timestamp: {row["Timestamp"]}')
         print(f'True star AltAz:   Az={star_az:.6f} El={star_el:.6f}')
