@@ -18,7 +18,7 @@ set -e
 REFRACT_DIR="/c/Users/trist/focal_plane_refactor"
 OVERLAY_DIR="/c/Users/trist/focal_plane_overlay"
 FINAL_DIR="/c/Users/trist/UtahPhotos"
-INPUT_SUBDIR="2026June"
+INPUT_SUBDIR="2026May"
 
 shopt -s nullglob
 files=("$REFRACT_DIR/$INPUT_SUBDIR"/*.raw)
@@ -79,7 +79,10 @@ for filepath in "${files[@]}"; do
         --output "${abbreviated}overlay.png" \
         --zoom-output "${abbreviated}overlay_zoom.png" \
         --zoom-halfwidth 120 \
-        --interactive-output "${abbreviated}overlay_interactive.html")
+        --interactive-output "${abbreviated}overlay_interactive.html" \
+        --calibration-output "${abbreviated}calibration_square.png" \
+        --calibration-zoom-halfwidth 240
+    )
 
     #generates table; for ease of data collecting; dEast & dEl are naturally in arcmin from cli
     line=$(echo "$output" | grep "dEast")
@@ -89,11 +92,13 @@ for filepath in "${files[@]}"; do
     dEl_deg=$(awk "BEGIN {print $dEl/60}")
     printf "%-20s %8s %12.3f %12.3f\n" "$abbreviated" "[$count/$total]" "$dEl_deg" "$dEast_deg" 
 
-    #Step 3: Outputs; copy before moving files if need be
+    #Step 3: Outputs; copy before moving files
     mv "${abbreviated}catalog.txt" "$BATCH_DIR/"
     mv "${abbreviated}overlay.png" "$BATCH_DIR/"
-    cp "${abbreviated}overlay_zoom.png" "$FINAL_DIR/"
+    cp "${abbreviated}overlay_zoom.png" "$FINAL_DIR/Overlayed"
     mv "${abbreviated}overlay_zoom.png" "$BATCH_DIR/"
+    cp "${abbreviated}calibration_square.png" "$FINAL_DIR/Calibrations"
+    mv "${abbreviated}calibration_square.png" "$BATCH_DIR/"
     mv "${abbreviated}overlay_interactive.html" "$BATCH_DIR/"
 
     #echo "Done: $name"
