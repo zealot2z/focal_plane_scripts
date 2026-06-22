@@ -1,0 +1,35 @@
+site:
+  lat_deg: 31.674997676
+  lon_deg: -110.9521311
+  height_m: 1268
+
+timing:
+  local_to_utc_hours: 7.0
+
+target:
+  name: Selected Star
+  ra_deg: 218.02
+  dec_deg: 38.31
+
+optics:
+  #pix2mm: 5.762417
+  pix2mm: 0.482 #ccd pixel
+  #pix2mm: 0.964
+  #mm_per_arcmin: 0.6153846154
+  mm_per_arcmin: 1.625 #mm on gammaray focal_plane
+  axis_length_arcmin: 20.0
+
+calibration:
+ #computed center with ellipsoid fit using these LEDS, but was still off so eyeballed the offset.
+  #mirror_center: [1599.846, 1018.330] Closest so far
+  mirror_center: [1594.86, 1016.82] #determined with square
+  offset: [5, 0]
+  led_coordinates:
+    - [2408.336, 645.459]
+    - [772.937, 1410.669]
+    - [772.784, 642.448]
+    - [1216.320, 1849.395]
+    - [1977.897, 1842.487]
+    - [2410.509, 1401.891]
+    - [1213.745, 203.140]
+    - [1973.441, 207.663]
