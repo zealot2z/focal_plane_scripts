@@ -5,7 +5,7 @@ run_pipeline.sh: This is a bash file, meant for reading all .raw files within a 
 
 convertElAz.py: Converts RA and DEC of a star into azimuth and elevation.
 
-convertEquitorial.py: Converts a given El and Az of a star into RA and DEC. Meant to see how the calculated offset coordinates of a star compare to its true RA and DEC.
+convertEquitorial.py: Converts a given El and Az of a star into RA and DEC. Meant to see how the calculated offset coordinates of a star compare to its true RA and DEC. Option for either individual input (commented) or processing bulk amounts of coordinates. Timestamps, Elevation, and Azimuth must be provided from data into their respective arrays. 
 
 fits.py: Converts .png into .fits for some generic background noise removal script. ##NEEDS WORK
 
