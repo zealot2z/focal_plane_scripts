@@ -9,6 +9,8 @@ a certain area around the center of the mirror, defined in overlay_config for fo
 
 run_pipeline.sh: This is a bash file, meant for reading all .raw files within a defined directory and processing them into .pngs. This script utilizes focal_plane_refractor and focal_plane_overlay. The directories will have to be modified for different users. Outputs a table of offsets such that data may be easily analyzed and plotted (using plot2.py). 
 
+focal_plane_config.yml: Config file for focal_plane_refraction. The most important things within this file are the minarea and deblend_cont, as each control the number of centroids added to the catalog. A larger minarea and deblend_cont are reccomended, as each significantly lowers the amount of noise added to the catalog in the image. 
+
 overlay_config.yml: Config file for focal_plane_overlay. The mirror center, optics details, LED Coordinates, and observer position (Fred-Lawrence-Whipple Observatory) are defined here. 
 
 utils.py: Utilities for overlay cli and config. 
