@@ -1,0 +1,88 @@
+# focal_plane_refactor
+
+Small package for:
+
+- `process_raw`: make a catalog from FITS/raw/image input
+- `psf`: fit a Gaussian PSF to one catalog source and save two plots
+
+## Detection backends
+
+`process_raw` supports three backends:
+
+- `sep` (default): Python-native source extraction using SEP
+- `sewpy`: optional wrapper around SExtractor, kept for compatibility
+- `simple_detection`: lightweight fallback based on Gaussian smoothing + thresholding
+
+## Installation
+
+### Conda environment
+
+```bash
+conda env create -f environment.yml
+conda activate focal-plane-refactor
+```
+
+### Pip editable install
+
+```bash
+pip install -e .
+```
+
+This installs the main runtime dependencies including `sep`.
+
+If you also want the optional `sewpy` backend:
+
+```bash
+pip install -e .[sewpy]
+```
+
+Note that `sewpy` still needs an external SExtractor executable (`source-extractor` or `sex`) available on your `PATH`.
+
+## Examples
+
+```bash
+focal-plane-refactor process_raw image.raw \
+  --rows 1944 --cols 2592 \
+  --output-catalog catalog.txt \
+  --preview detections_stretched.png \
+  --preview-raw detections_raw.png \
+  --dump-jpg stretched.jpg \
+  --dump-raw-jpg raw.jpg
+```
+
+Use `sewpy` explicitly:
+
+```bash
+focal-plane-refactor process_raw image.raw \
+  --rows 1944 --cols 2592 \
+  --method sewpy \
+  --output-catalog catalog.txt
+```
+
+PSF fitting:
+
+```bash
+focal-plane-refactor psf image.raw \
+  --rows 1944 --cols 2592 \
+  --catalog catalog.txt \
+  --source-id 2 \
+  --halfwidth 10 \
+  --zoom-halfwidth 100 \
+  --output-zoom center_psf_zoom.png \
+  --output-overlay center_psf_overlay.png
+```
+
+## Batch processing
+
+A batch helper script is included:
+
+```bash
+chmod +x batch_focal_plane.sh
+./batch_focal_plane.sh --input-dir ../images/focal_plane --pattern '*.raw'
+```
+
+`psf` is skipped by default in the batch script. Add `--do-psf` to run it.
+
+## YAML config
+
+See `focal_plane_config.example.yml` for the config structure.

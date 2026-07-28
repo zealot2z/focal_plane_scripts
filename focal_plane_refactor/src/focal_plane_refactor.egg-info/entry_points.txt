@@ -1,0 +1,2 @@
+[console_scripts]
+focal-plane-refactor = focal_plane_refactor.cli:main

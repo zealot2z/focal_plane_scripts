@@ -1,0 +1,29 @@
+[build-system]
+requires = ["setuptools>=61"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "focal-plane-refactor"
+version = "0.12.0"
+description = "Small focal-plane catalog and PSF helper with SEP and optional sewpy backends"
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+  "numpy",
+  "scipy",
+  "pandas",
+  "matplotlib",
+  "astropy",
+  "Pillow",
+  "PyYAML",
+  "sep",
+]
+
+[project.scripts]
+focal-plane-refactor = "focal_plane_refactor.cli:main"
+
+[tool.setuptools]
+package-dir = {"" = "src"}
+
+[tool.setuptools.packages.find]
+where = ["src"]

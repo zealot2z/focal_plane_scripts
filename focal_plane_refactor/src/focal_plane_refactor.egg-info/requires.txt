@@ -1,0 +1,8 @@
+numpy
+scipy
+pandas
+matplotlib
+astropy
+Pillow
+PyYAML
+sep
