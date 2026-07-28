@@ -1,5 +1,7 @@
+These are scripts and models used in processing data for a pointing correction on the pSCT. Created during the summer of 2026, University of Utah's Physics and Astronomy REU. Organized by Owen Karl. See Workflow.png for a visual of the data pipeline. Note that for this .png, "Cataloging script" refers to focal plane refactor and "Offset vector script" refers to focal plane overlay. 
+
 Please see Qi Feng's...
-1.) Refractor: https://github.com/qi-feng/focal_plane_refactor.git
+1.) Refactor: https://github.com/qi-feng/focal_plane_refactor.git
 2.) Overlay: https://github.com/qi-feng/focal_plane_overlay.git
 For image processing. These scripts are modifications or tools to be used in tandem with refractor or overlay. 
 
@@ -39,19 +41,41 @@ Overlayed: This contains images of a zoomed in overlay, where the offset vector 
 Nonzoom_overlayed: Exact same as Overlayed, but the images aren't zoomed in such that you may see the entire focal plane. 
 
 
+#############################
+FOCAL_PLANE_REFACTOR
+#############################
 
+This is where the data processing pipeline is executed, done with the run_pipeline.sh bashfile. These were ran in a conda environment on a VSCode terminal. The environments MUST be created before executing any commands. The environment files are already listen in each respective script directory. Please see Qi Feng's original scripts (available on GitHub) for explanations. Ensure that all raw files are located somewhere within this directory, and that there location is specified in run_pipeline.sh. Important commands to consider are:
 
+- bash run_pipeline.sh (Runs the bash script)
 
-cli.py: This is for cli for focal_plane_overlay, modified with autodetection that utilizes either the flux of the star pixels or the largest area centroid within
-a certain area around the center of the mirror, defined in overlay_config for focal_plane_overlay. Also outputs a new calibration_square png such that one may more easily identify wether or not the center is well defined by examining the overlap between the lattice outline and the square itself, as well as the center cross' place within said square. 
+To run the scripts by themselves:
+1.) Refactor 
+- conda activate [REFACTORENVIRONMENTNAME]
+- python -m focal_plane_refactor.cli process_raw '.\[DIRECTORYNAME]\[IMAGENAME].raw'  --rows 1944 --cols 2592  --output-catalog catalog.txt  --preview-raw wLEDs_detections_raw.png  --dump-raw-jpg wLEDs_raw.jpg --config focal_plane_config.yml (Runs focal plane refractor)
+
+2.) Overlay
+- conda activate [OVERLAYENVIRONMENTNAME]
+- python -m focal_plane_overlay.cli '.\[IMAGENAME].raw' --catalog ./catalog.txt --config overlay_config.yml  --led-threshold 150 --led-search-radius 70  --alpha-deg 0 --offset-el-arcmin 0 --offset-east-arcmin 0 --ignore-skycam --output overlay.png --zoom-output overlay_zoom.png --zoom-halfwidth 120 --interactive-output overlay_interactive.html --calibration-output calibration_square.png --calibration-zoom-halfwidth 240 (Runs focal plane overlay)
+
+The scripts themselves...
 
 run_pipeline.sh: This is a bash file, meant for reading all .raw files within a defined directory and processing them into .pngs. This script utilizes focal_plane_refractor and focal_plane_overlay. The directories will have to be modified for different users. Outputs a table of offsets such that data may be easily analyzed and plotted (using plot2.py). 
 
 focal_plane_config.yml: Config file for focal_plane_refraction. The most important things within this file are the minarea and deblend_cont, as each control the number of centroids added to the catalog. A larger minarea and deblend_cont are reccomended, as each significantly lowers the amount of noise added to the catalog in the image. 
 
+#############################
+FOCAL_PLANE_OVERLAY
+#############################
+
+Again, please see Qi Feng's original scripts (available on GitHub) for most thorough explanations. I will be explaining only the scripts I modified. 
+
+cli.py: This is for cli for focal_plane_overlay, modified with autodetection that utilizes either the flux of the star pixels or the largest area centroid within
+a certain area around the center of the mirror, defined in overlay_config for focal_plane_overlay. Also outputs a new calibration_square png such that one may more easily identify wether or not the center is well defined by examining the overlap between the lattice outline and the square itself, as well as the center cross' place within said square. 
+
 overlay_config.yml: Config file for focal_plane_overlay. The mirror center, optics details, LED Coordinates, and observer position (Fred-Lawrence-Whipple Observatory) are defined here. 
 
-utils.py: Utilities for overlay cli and config. 
+utils.py: Utilities for overlay cli and config. This lists the mm/pixel scale. 
 
 
 
