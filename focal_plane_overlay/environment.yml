@@ -1,0 +1,21 @@
+name: focal_overlay
+channels:
+  - conda-forge
+dependencies:
+  - python=3.10
+  - numpy
+  - scipy
+  - pandas
+  - matplotlib
+  - pyyaml
+  - pillow
+  - astropy
+  - photutils
+  - opencv
+  - sep
+  - pip
+  - scikit-image
+  - pip:
+      - plotly
+      - brokenaxes
+      - -e .

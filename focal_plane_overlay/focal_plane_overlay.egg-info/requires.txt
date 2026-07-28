@@ -1,0 +1,7 @@
+numpy
+pandas
+matplotlib
+PyYAML
+astropy
+photutils
+opencv-python

@@ -1,0 +1,11 @@
+Metadata-Version: 2.4
+Name: focal-plane-overlay
+Version: 0.1.0
+Requires-Python: >=3.10
+Requires-Dist: numpy
+Requires-Dist: pandas
+Requires-Dist: matplotlib
+Requires-Dist: PyYAML
+Requires-Dist: astropy
+Requires-Dist: photutils
+Requires-Dist: opencv-python
