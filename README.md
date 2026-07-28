@@ -26,7 +26,7 @@ During my project, I used this folder to sort all outputs from the data pipeline
 
 PNGtoPDF.py: Organizes and labels all .png (and other photo types) from a folder into a single PDF.
 
-Data: Where the csv files are placed. Also where the data handling scripts are located that interact directly with said CSVs. Within this folder, we have... 
+Data: Where I placed my csv files. Also where the data handling scripts are located that interact directly with said CSVs. Within this folder, we have... 
  -  plot2.py: Histograms and scatter plots to plot data from a .csv file. Very disorganized as of now, comment and uncomment plots you want to use.
  -  convertElAz.py: Converts RA and DEC of a star into azimuth and elevation.
  -  convertEquitorial.py: Converts a given El and Az of a star into RA and DEC. Meant to see how the calculated offset coordinates of a star compare to its true       RA and DEC. Option for either individual input (commented) or processing bulk amounts of coordinates. Timestamps, Elevation, and Azimuth must be provided from     data into their respective arrays.
