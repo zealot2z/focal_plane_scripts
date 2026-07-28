@@ -50,6 +50,7 @@ This is where the data processing pipeline is executed, done with the run_pipeli
 - bash run_pipeline.sh (Runs the bash script)
 
 To run the scripts by themselves:
+
 1.) Refactor 
 - conda activate [REFACTORENVIRONMENTNAME]
 - python -m focal_plane_refactor.cli process_raw '.\[DIRECTORYNAME]\[IMAGENAME].raw'  --rows 1944 --cols 2592  --output-catalog catalog.txt  --preview-raw wLEDs_detections_raw.png  --dump-raw-jpg wLEDs_raw.jpg --config focal_plane_config.yml (Runs focal plane refractor)
