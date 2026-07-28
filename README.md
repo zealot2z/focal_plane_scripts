@@ -22,7 +22,7 @@ This is the CTBend model in its most basic, trigonometric form. It is physically
 UTAHPHOTOS (GIT)
 #############################
 
-During my project, I used this folder to sort all outputs from the data pipeline (see Workflow.png for visual example). It contains several scripts that are useful for generating, plotting, and formatting data from csv files. Note that the scripts are the most important part of this folder. So long as your directories match the ones used in these scripts, the code should work. I am putting in this format mostly as convenience for the user and to get an idea for the layers of directories. Beneath is a summary of each: 
+During my project, I used this folder to sort all outputs from the data pipeline (see Workflow.png for visual example). It contains several scripts that are useful for generating, plotting, and formatting data from csv files. Note that the scripts are the most important part of this folder. So long as your directories match the ones used in these scripts, the code should work. I am putting in this format mostly as convenience for the user and to get an idea for the layers of directories. There is an example image in each. Beneath is a summary of each: 
 
 PNGtoPDF.py: Organizes and labels all .png (and other photo types) from a folder into a single PDF.
 
